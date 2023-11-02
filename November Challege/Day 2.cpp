@@ -52,3 +52,29 @@ public:
     }
 };
 
+//Approach 2 - using Postorder
+// TC = O(N)
+// SC = O(1)
+
+class Solution {
+public:
+    int res=0;
+    pair<int,int> solve(TreeNode* root) {
+        if(!root) return{0,0};
+
+        pair<int,int> lp = solve(root->left);
+        pair<int, int> rp = solve(root->right);
+
+        int sum = root->val + lp.first + rp.first;
+        int n = 1 + lp.second + rp.second;
+
+        if(sum/n == root->val) res++;
+
+        return {sum,n}; 
+        
+    }
+    int averageOfSubtree(TreeNode* root) {
+        solve(root);
+        return res;
+    }
+};
