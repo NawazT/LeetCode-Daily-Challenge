@@ -1,26 +1,16 @@
 class Solution {
 public:
     int getLastMoment(int n, vector<int>& left, vector<int>& right) {
-        int slowest_left = INT_MIN, slowest_right = INT_MAX;
-        int l = left.size(), r = right.size();
-
-        for(int i=0; i < max(l,r); i++)
-        {
-            if(i<l && i<r)
-            {
-                slowest_left = max(left[i], slowest_left);
-                slowest_right = min(right[i], slowest_right);
-            }
-            else if(i<l)
-            {
-                slowest_left = max(left[i], slowest_left);
-            }
-            else if(i<r)
-            {
-                slowest_right = min(right[i], slowest_right);
-            }
+        int res = 0;
+        if(left.size()) {
+            int t = *max_element(left.begin(), left.end());
+            res = t;
         }
-
-        return max(n-slowest_right, slowest_left);
+        if(right.size()) {
+            int t = *min_element(right.begin(), right.end());
+            res = max(res, n-t);
+        }
+        
+        return res;
     }
 };
