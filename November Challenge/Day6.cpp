@@ -73,3 +73,31 @@ public:
 
 // This wil give TLE
 
+// Approach 2
+// TC = O(M*lon(N));
+// SC = O(N);
+
+class SeatManager {
+public:
+    priority_queue<int, vector<int>, greater<int>> pq;
+    int smallestUnreserve;
+    SeatManager(int n) {
+        smallestUnreserve = 1;    
+    }
+    
+    int reserve() {
+        int seat = smallestUnreserve;
+        if(!pq.empty())
+        {
+           seat = pq.top();
+           pq.pop();
+           return seat;
+        }
+        smallestUnreserve++;
+        return seat;
+    }
+    
+    void unreserve(int seatNumber) {
+        pq.push(seatNumber);
+    }
+};
