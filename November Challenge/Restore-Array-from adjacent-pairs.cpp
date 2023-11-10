@@ -1,5 +1,5 @@
 // TC = O(N)
-// SC = O(2N)
+// SC = O(N)
 
 // Key points - start and end elements will have only one neighour start building from either end.
 
@@ -38,27 +38,25 @@ public:
         arr[0] = st;
         arr[n] = en;
         int ind = 1;
-        unordered_map<int,int> vis;
-        vis[st]++;
-        vis[en]++;
-
+        //unordered_map<int,int> vis;
+        //vis[st]++;
+        //vis[en]++;
+        int prev = arr[ind-1];
         while(ind < n)
         {
-            int prev = arr[ind-1];
             //we'll append our elements to the right of prev;
-            int n1 = mpp[prev].front();
-            int n2 = mpp[prev].back();
+            int n1 = mpp[arr[ind-1]].front();
+            int n2 = mpp[arr[ind-1]].back();
 
-            if(vis.find(n1) != vis.end())
+            if(n1 != prev)
             {
-                arr[ind] = n2;
-                vis[n2]++;
+                arr[ind] = n1;
             }
             else
             {
-                arr[ind] = n1;
-                vis[n1]++;
+                arr[ind] = n2;
             }
+            prev = arr[ind-1];
             ind++;
         }
         return arr;
