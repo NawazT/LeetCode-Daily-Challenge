@@ -1,21 +1,42 @@
-//Approach 1 - Using Dijkstra's algo
+//Approach 1 - Using Floyd Warshall algo
 
-// TC - O(E) + O(No. of calls to shortestPath(M) * (E * logV))
-// Sc - O(E) + O(E) + M * O(number of Nodes)-> for storing result vector ..
+// TC - O(N^2) + O(N^3)
+// Sc - O(N^2)
+
 
 class Graph {
 public:
-    unordered_map<int, vector<pair<int,int>>> adj;
+    vector<vector<int>> minDist;
     int N;
-    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+//priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
     Graph(int n, vector<vector<int>>& edges) {
         N = n;
+
+        minDist = vector<vector<int>>(n,vector<int> (n,1e9));
+
         for(auto & vec: edges)
         {
             int u = vec[0];
             int v = vec[1];
             int cost = vec[2];
-            adj[u].push_back({v,cost});
+            minDist[u][v] = cost;
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            minDist[i][i] = 0;
+        }
+
+        //floyd Warshall
+        for(int via = 0; via < n; via++)
+        {
+            for(int i=0;i<n;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    minDist[i][j] = min(minDist[i][j], minDist[i][via] + minDist[via][j]);
+                }
+            }
         }
     }
     
@@ -23,35 +44,19 @@ public:
         int u = edge[0];
         int v = edge[1];
         int cost = edge[2];
-        adj[u].push_back({v,cost});
+        
+        for(int i=0;i<N;i++)
+        {
+            for(int j=0;j<N;j++)
+            {                    
+                minDist[i][j] = min(minDist[i][j], minDist[i][u] + cost + minDist[v][j]);
+            }
+        }
     }
     
     int shortestPath(int node1, int node2) {
-        vector<int> minDist(N, 1e9);
 
-        minDist[node1] = 0;
-
-        pq.push({0,node1});
-
-        while(!pq.empty())
-        {
-            pair<int,int> curr = pq.top();
-            pq.pop();
-
-            int node = curr.second;
-            int dist = curr.first;
-
-            for(auto &it : adj[node])
-            {
-                if(dist + it.second < minDist[it.first])
-                {
-                    minDist[it.first] = dist + it.second;
-                    pq.push({minDist[it.first], it.first});
-                }
-            }
-        }
-
-        return minDist[node2] == 1e9 ? -1 : minDist[node2];
+        return minDist[node1][node2] == 1e9 ? -1 : minDist[node1][node2];
 
     }
 };
