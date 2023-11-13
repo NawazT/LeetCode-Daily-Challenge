@@ -54,3 +54,53 @@ public:
         return ans;
     }
 };
+
+// Approach 2
+
+// Sort time O(N)
+
+// store pair of {char, count} in a vector and then build a sorted string of vowels, to pick the chars from.
+
+// The sort functio starts ....
+
+ auto sortV = [] (string &V) {
+
+            pair<char, int> cnt[10] = {
+                {'A',0},
+                {'E',0},
+                {'I',0},
+                {'O',0},
+                {'U',0},
+                {'a',0},
+                {'e',0},
+                {'i',0},
+                {'o',0},
+                {'u',0}
+            };
+
+            for(auto &c : V)
+            {
+                for(int i=0;i<10;i++)
+                {
+                    if(cnt[i].first == c) 
+                    {
+                        cnt[i].second++;
+                        break;
+                    }
+                }
+            }
+            string neo;
+            for(auto &it : cnt)
+            {
+                for(int j=0;j<it.second;j++)
+                {
+                    neo.push_back(it.first);
+                }
+            }
+
+            V = neo;
+        };
+
+        // The sort function ends....
+
+        
