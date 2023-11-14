@@ -89,3 +89,45 @@ public:
         return ans;
     }
 };
+
+// Precomputing left and right indx of every char
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        int n = s.length();
+
+        vector<pair<int,int>> ind(26, {-1,-1});
+
+        for(int i=0;i<n;i++)
+        {
+            char c = s[i];
+            int idx = c - 'a';
+            if(ind[idx].first == -1)
+            {
+                ind[idx].first  = i;
+            }
+            ind[idx].second = i;
+        }
+
+        int ans = 0;
+
+        for(int i=0;i<26;i++)
+        {
+            int left = ind[i].first;
+            int right = ind[i].second;
+
+            if(left == -1) continue;
+
+            unordered_set<char> middle;
+
+            for(int j = left+1; j<=right-1; j++)
+            {
+                middle.insert(s[j]);
+            }
+
+            ans+=middle.size();
+        }
+
+        return ans;
+    }
+};
