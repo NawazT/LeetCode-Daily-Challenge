@@ -39,3 +39,53 @@ public:
 };
 
 // This will give TLE
+
+//first and lasy has to be equal- find left and righmost ind of a char
+//then all the unique char from left+1 to right-1 willl contribute to our answer
+//TC = O(N)
+//SC = O(1)
+
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        unordered_set<char> letters;
+        int n = s.length();
+
+        for(int i=0;i<n;i++)
+        {
+            letters.insert(s[i]);
+        }
+
+        int ans = 0;
+
+        for(char letter : letters)
+        {
+            int left = -1;
+            int right = -1;
+
+            for(int i=0;i<n;i++)
+            {
+                if(s[i] == letter)
+                {
+                    if(left == -1)
+                    {
+                        left = i;
+                    }
+
+                    right = i;
+                }
+            }
+
+            unordered_set<char> middle;
+
+            for(int i = left+1; i<=right-1; i++)
+            {
+                middle.insert(s[i]);
+            }
+
+            ans+=middle.size();
+        }
+
+        return ans;
+    }
+};
