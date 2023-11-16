@@ -46,14 +46,47 @@ public:
 // If the loop goes from 0 to n, there is atleast 1 one number which will not be found in our set cause there is only n-1 number of n length binary 
 
 for(int i=0; i <= n ; i++)
+{            
+    if(s.find(i) == s.end())        
+    {
+        string temp = bitset<16>(i).to_string();
+        return temp.substr(16-n, n);        
+    }
+}
+
+// Optimal Approach
+
+// Change each char of the given string such that our
+// ans differ from every given string
+// alter 0th char of 0th string and append to ans
+// alter 1st char of 1st string and append to ans
+// alter 2nd char of 2nd string and append to ans
+// alter 3rd char of 3rd string and append to ans ...... and so on
+
+// So finally our ans string will differ from each and every given string and will be of n length.
+
+// TC = O(N)
+// sc = O(1)
+
+class Solution {
+public: 
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size();
+        
+        string ans = "";
+
+        for(int i=0; i < n ; i++)
         {
-            if(s.find(i) == s.end())
+            if(nums[i][i] == '0')
             {
-                string temp = bitset<16>(i).to_string();
-                return temp.substr(16-n, n);
+                ans+="1";
             }
+            else ans+="0";
         }
 
+        return ans;
+    }
+};
 
 
-        
+
