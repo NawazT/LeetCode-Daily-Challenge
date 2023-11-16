@@ -41,3 +41,19 @@ public:
         return "-1";
     }
 };
+
+// Slight Optimization
+// If the loop goes from 0 to n, there is atleast 1 one number which will not be found in our set cause there is only n-1 number of n length binary 
+
+for(int i=0; i <= n ; i++)
+        {
+            if(s.find(i) == s.end())
+            {
+                string temp = bitset<16>(i).to_string();
+                return temp.substr(16-n, n);
+            }
+        }
+
+
+
+        
