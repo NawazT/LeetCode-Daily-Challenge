@@ -57,3 +57,44 @@ public:
         return freq;
     }
 };
+
+// TC - O(NlogN)
+// SC - O(1)
+
+// the key is to find out the valid condition:
+// k + sum >= size * max
+// which is
+// k + sum >= (j - i + 1) * A[j]
+
+class Solution {
+public:
+    //instead of using bs to find the best mid index we are directly finding the max size window
+    //using the sliding window approach for every valid case we try to expand our window by right++ 
+    //and left++ for invalid cases -> shrink
+    
+    int maxFrequency(vector<int>& nums, int k) {
+        //Why Sorting ? -> We can only increment, so we go at each element and ask their smaller ones, 
+        //can we increment them to make them equal to the current in <= k operations?   
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+
+        long currSum = 0;
+
+        int freq = 0;
+        //checking for the best target element by trying all element
+        int l=0,r=0;
+
+        for(r; r<n; r++)
+        {
+            currSum+=(long)nums[r];
+
+            if(((long)((long)(r-l+1)*(long)nums[r]) - currSum) > k )
+            {
+                l++;
+                currSum-=(long)nums[l-1];
+            }
+            freq = max(freq, r-l+1);
+        }
+        return freq;
+    }
+};
