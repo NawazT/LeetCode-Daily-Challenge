@@ -35,3 +35,33 @@ public:
     }
 };
 
+// All elements right to nextL are greater so,
+// we need n-1-nextL operations to make all elements to the right equal
+// TC = O(NlogN)
+// SC = O(1)
+
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        //sorting to select nextl and l;
+        sort(nums.begin(), nums.end());
+
+        int n = nums.size();
+        int l = nums[n-1];
+        int nextL = n-1;
+        int ops = 0;
+
+        while(nextL >= 0)
+        {
+            if(nums[nextL] == l)
+            {
+                nextL--;
+            }
+            else{
+                ops+=(n-1-nextL);
+                l = nums[nextL];
+            }
+        }
+        return ops;
+    }
+};
