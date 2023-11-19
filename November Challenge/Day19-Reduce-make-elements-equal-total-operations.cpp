@@ -65,3 +65,52 @@ public:
         return ops;
     }
 };
+// Optimal Approach
+// TC = O(N)
+// SC = O(1) -> fixed size freq array
+//storing freq of each in an array
+//iterating from last first non zero freq will be largest
+
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        
+
+        vector<int> freq(50001,0);
+
+        for(int &i : nums)
+        {
+            freq[i]++;
+        }
+
+        int n = nums.size();
+        int l = -1;
+        int nextL = -1;
+        int ops = 0;
+
+        for(int j = 50000; j>=0; j--)
+        {
+            if(freq[j] > 0)
+            {
+                l = j;
+                nextL = j;
+                break;
+            } 
+        }
+
+
+        while(nextL >= 0)
+        {
+            if(nextL == l || freq[nextL] == 0)
+            {
+                nextL--;
+            }
+            else{
+                ops+=freq[l];
+                freq[nextL]+=freq[l];
+                l = nextL;
+            }
+        }
+        return ops;
+    }
+};
