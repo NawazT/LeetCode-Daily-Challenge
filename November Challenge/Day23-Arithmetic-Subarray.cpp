@@ -44,3 +44,59 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<bool> checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+        // Brute force
+        // Extract the elements of range nums[l[i]], nums[r[i]]
+        // Calc the diff using AP 
+        // Check for exixtence of each element of the AP in the range
+        // TC = O(M* (N + N + N))
+
+        vector<bool> ans;
+        int m = l.size();
+
+        for(int i=0; i<m; i++) //-> O(M)
+        {
+            int lt = l[i];
+            int rt = r[i];
+
+            if((rt - lt) == 1) {ans.push_back(true);continue;}
+            else{
+                vector<int> temp(begin(nums)+lt, begin(nums)+rt+1);
+                
+                int mx = INT_MIN;
+                int mn = INT_MAX;
+                int n = temp.size();
+                unordered_set<int> s;
+                for(int &num : temp) // -> O(N)
+                {
+                    mx = max(num, mx);
+                    mn = min(num, mn);
+                    s.insert(num);    
+                }
+
+                if(((long)mx - (long)mn) % (long)(n - 1) != 0) {ans.push_back(false);continue;}
+
+                long diff =((long)mx - (long)mn) /(long)(n - 1);
+
+                int flag = true;
+                int curr = mn;
+                while(curr < mx)
+                {
+                    if(s.find(curr) == s.end())
+                    {
+                        flag = false;
+                        break;
+                    }
+                    curr += diff;
+                }
+                
+                ans.push_back(flag);
+                temp.clear();
+                temp.shrink_to_fit();
+            }
+        }
+        return ans;
+    }
+};
