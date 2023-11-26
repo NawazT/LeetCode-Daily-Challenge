@@ -34,3 +34,55 @@ public:
         return ans;
     }
 };
+
+// TC = O(N*M);
+
+class Solution {
+public:
+
+    int largestSubmatrix(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int ans = 0;
+
+        vector<pair<int,int>> prevHeights;
+
+        for(int row = 0; row < n; row++)
+        {
+            vector<pair<int,int>> currHeights;
+            vector<bool> seen(m,false);
+
+            for(auto [height,col] : prevHeights)
+            {
+                if(matrix[row][col] == 1) 
+                {
+                    currHeights.push_back({height+1, col}); 
+                    seen[col] = true;
+                }
+            }
+
+            for(int j=0;j<m;j++)
+            {
+                if(!seen[j] && matrix[row][j] == 1)
+                {
+                    currHeights.push_back({1,j});
+                } 
+            }
+
+            for(int i=0;i<currHeights.size(); i++)
+            {
+                int h = currHeights[i].first;
+                int b = i+1;
+
+                ans = max(ans, h*b);
+            }
+
+            prevHeights = currHeights;
+
+        }
+
+
+
+        return ans;
+    }
+};
