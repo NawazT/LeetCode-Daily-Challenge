@@ -18,4 +18,21 @@ public:
     }
 };
 
+//Approach 2
+// unsetting the right-most set bit 
+// TC = O(32) ~ constanst
+// SC = O(1) ~ constanst
 
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int ans = 0;
+        while(n > 0)
+        {
+            n = n & (n-1);
+            ans++;
+        }
+
+        return ans;
+    }
+};
