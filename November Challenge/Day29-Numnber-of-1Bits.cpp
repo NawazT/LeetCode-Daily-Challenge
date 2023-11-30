@@ -38,7 +38,7 @@ public:
 };
 
 // Approach 3
-
+// Using the remainder method
 class Solution {
 public:
     int hammingWeight(uint32_t n) {
